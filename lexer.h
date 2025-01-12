@@ -56,11 +56,11 @@ void free_function(Function *func) {
     vector_free(&func->args);
 }
 
-int lexer(char *file_path) {
+Vector lexer(char *file_path) {
     FILE *fp = fopen(file_path, "r");
     if (!fp) {
         fprintf(stderr, "Error: Failed to open file '%s'\n", file_path);
-        return 1;
+        exit(1);
     }
 
     char buffer[8192];
@@ -108,30 +108,11 @@ int lexer(char *file_path) {
     }
 
     // Todo implement parsing
-    VECTOR_FOR_EACH(Function, func, &functions) {
-        printf("Function: %s\n", instruction_to_string(func->instruction));
-        VECTOR_FOR_EACH(char *, arg, &func->args) {
-            printf("  Arg: %s\n", *arg);
-        }
-    }
-
-    VECTOR_FOR_EACH(Function, func, &functions) {
-        free_function(func);
-    }
-    vector_free(&functions);
     vector_free(&lines);
 
-    return 0;
+
+
+    return functions;
 }
 
-int main() {
-
-    int result = lexer("test.ztest");
-    if (result != 0) {
-        return result;
-    }
-
-    return 0;
-
-}
 
